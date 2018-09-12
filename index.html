@@ -1,0 +1,275 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="libs/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="libs/reveal.js/css/theme/moon.css">
+		<link rel="stylesheet" href="libs/reveal.js/lib/css/zenburn.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Dart for mobile and Web
+
+						exploring how to achieve cross-platform front end code-reuse
+					</textarea>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+						## What will be covered?
+						1. what is Dart?
+						2. Dart for the Web
+						3. what is Flutter?
+						4. Dart BLoCs for Flutter & Web
+					</textarea>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<textarea data-template>
+							## What is Dart?
+							
+							* Open source (BSD license)
+							* General purpose (but focused on front ends)
+							* Object oriented
+							* Type safe with type inference
+							* Can run stand-alone in the dart vm
+							* can be AOT-compiled into machine code (as with Flutter)
+
+							Has a great [language tour](https://www.dartlang.org/guides/language/language-tour)
+						</textarea>
+					</section>
+
+					<section data-markdown>
+						<textarea data-template>
+							## Comes with useful tools...
+
+							* pub - the [Dart package manager](https://pub.dartlang.org/)
+							* dartanalyzer - static code analysis
+							* dartfmt - formats according to the [Dart Style Guide](https://www.dartlang.org/guides/language/effective-dart/style)
+							* stagehand - [Dart project generator](https://github.com/dart-lang/stagehand)
+						</textarea>
+					</section>
+
+					<section data-markdown>
+						<textarea data-template>
+							## ... and nice syntax sugar
+
+							Like
+							* functions as true objects
+							* anonymous functions
+							* string interpolation
+							* [Futures](https://www.dartlang.org/tutorials/language/futures) and [Streams](https://www.dartlang.org/tutorials/language/streams)
+						</textarea>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<textarea data-template>
+							## Dart for the Web
+							
+							Possible with Dart standard libraries alone
+							
+							`dart:html` as Dart-y wrapper around the DOM and window APIs
+
+							Obviously Google recommends the use of [AngularDart](https://webdev.dartlang.org/angular)
+						</textarea>
+					</section>
+
+					<section data-markdown >
+						<textarea data-template>
+							## Dart's tooling for Web development
+
+							[webdev](https://webdev.dartlang.org/tools/webdev) CLI for users and tools to build and serve web apps
+						</textarea>
+					</section>
+
+					<section data-markdown data-separator-notes="^Note:">
+						<textarea data-template>
+							## Getting started
+
+							```
+							$ pub global activate webdev
+							$ pub global activate stagehand
+							$ mkdir quickstart
+							$ cd quickstart
+							$ stagehand web-angular
+							$ pub get
+							$ webdev serve
+							```
+
+							Note:
+							webdev will use dartdevc under the hood to transpile to JS
+						</textarea>
+					</section>
+
+					<section data-markdown data-separator-notes="^Note:">
+						<textarea data-template>
+							## a glance under the hood
+
+							The webdev tool is built on [build_runner](https://webdev.dartlang.org/tools/build_runner)
+
+							Whenever you `webdev build` or `webdev serve`, [dartdevc](https://webdev.dartlang.org/tools/dartdevc) (also known as DDC) is used to transpile Dart to JS
+
+							However dartdevc is for development only.
+							If you pass `--release` to any `webdev` command, [dart2js](https://webdev.dartlang.org/tools/dart2js) is used instead.
+
+							Note:
+							With dart2js you get advanced optimizations such as tree shaking
+						</textarea>
+					</section>
+				</section>
+
+				<section>
+
+					<section data-markdown data-separator-notes="^Note:">
+						<textarea data-template>
+							## what is Flutter?
+
+							* reactive framework
+							* for cross platform native apps development
+							* with built-in Material Design and Cupertino widgets
+
+							Note:
+							* development platform for Google’s upcoming Fuchsia operating system
+							* Currently in release preview 1
+							* Ready for production apps (stated by google during i/o in may 2018)
+							* Supports hot reloading
+
+						</textarea>
+					</section>
+					
+					<section data-markdown data-separator-notes="^Note:">
+						<textarea data-template>
+							## Framework & Engine
+							<img src="assets/imgs/flutter_architecture.png">
+
+							[Source](https://docs.google.com/presentation/d/1cw7A4HbvM_Abv320rVgPVGiUP2msVs7tfGbkgdrTy0I/edit#slide=id.gbb3c3233b_0_162)
+						</textarea>
+					</section>
+
+					<section data-markdown data-separator-notes="^Note:">
+						<textarea data-template>
+							## everything is a Widget
+							<img src="assets/imgs/flutter_widgets.png">
+
+							[Source](https://docs.google.com/presentation/d/1cw7A4HbvM_Abv320rVgPVGiUP2msVs7tfGbkgdrTy0I/edit#slide=id.gbb3c3233b_0_162)
+						</textarea>
+					</section>
+
+					<section data-markdown data-separator-notes="^Note:">
+						<textarea data-template>
+							## the reactive part
+							<img src="assets/imgs/flutter_state.png">
+
+							[Source](https://docs.google.com/presentation/d/1cw7A4HbvM_Abv320rVgPVGiUP2msVs7tfGbkgdrTy0I/edit#slide=id.gbb3c3233b_0_162)
+						</textarea>
+					</section>
+
+					<section data-markdown data-separator-notes="^Note:">
+						<textarea data-template>
+							## Getting started
+
+							```
+							$ flutter create quickstart
+							$ cd quickstart
+							$ flutter run
+							```
+						</textarea>
+					</section>
+
+				</section>
+
+				<section>
+						<section data-markdown data-separator-notes="^Note:">
+							<textarea data-template>
+								## Dart BLoCs for Flutter & Web
+							</textarea>
+						</section>
+
+						<section data-markdown data-separator-notes="^Note:">
+							<textarea data-template>
+								## What is BLoC?!
+
+								> The BLoC pattern was conceived by Cong Hui, Paolo Soares, and Wenfan Huang at Google
+								
+								> BLoC allows Google to share code between Flutter (mobile) and AngularDart (web) apps
+								
+								Source: [Blogpost by Filip Hracek, working on Google’s Dart programming language and Flutter SDK](https://medium.com/flutter-io/build-reactive-mobile-apps-in-flutter-companion-article-13950959e381)
+
+							</textarea>
+						</section>
+
+						<section data-markdown data-separator-notes="^Note:">
+							<textarea data-template>
+								## But WHY BLoC?!
+
+								Because your view code is actually full of business logic and thus not platform agnostic at all... sry!
+
+								The approach of UI’s reaction to data change is different between Flutter’s Stateful widget and AngularDart’s Change Detection
+							</textarea>
+						</section>
+
+						<section data-markdown data-separator-notes="^Note:">
+							<textarea data-template>
+								## So how to build a BLoC?
+
+								* BLoC’s input and output interfaces are all <mark>Stream / Sink</mark>
+								* BLoC’s <mark>dependencies are always injectable</mark> and environment independent
+								* There is no conditional branch for each environment in BLoC
+								* Implementation is free as long as it complies with the above rules
+
+								Source: [Paolo Soares @ DartConf](https://www.youtube.com/watch?v=PLHln7wHgPE)
+							</textarea>
+						</section>
+
+						<section data-markdown data-separator-notes="^Note:">
+							<textarea data-template>
+								## How is BLoC helping again?
+
+								To draw an asynchronous value independent of platform, Dart‘s BLoC pattern uses Streams.
+
+								Flutter has <mark>StreamBuilder</mark> as a mechanism for redrawing each time new data flows in on the Stream.
+								
+								AngularDart also has a similar reaction mechanism thanks to the <mark>async pipe</mark>.								
+							</textarea>
+						</section>
+
+						<section data-markdown data-separator-notes="^Note:">
+							<textarea data-template>
+								## Demo
+
+								Courtesy of Brian Egan
+
+								https://github.com/brianegan/github_search_angular_flutter
+							</textarea>
+						</section>
+						
+				</section>
+
+			</div>
+		</div>
+		<script src="libs/reveal.js/js/reveal.js"></script>
+		<script src="libs/reveal.js/lib/js/head.min.js"></script>
+		<script>
+			Reveal.initialize({
+				dependencies: [
+					// Interpret Markdown in <section> elements
+					{ src: 'libs/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'libs/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+
+					// Syntax highlight for <code> elements
+					{ src: 'libs/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+
+					// Zoom in and out with Alt+click
+					{ src: 'libs/reveal.js/plugin/zoom-js/zoom.js', async: true },
+
+					// Speaker notes
+					{ src: 'libs/reveal.js/plugin/notes/notes.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>
